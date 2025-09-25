@@ -1,8 +1,8 @@
 import numpy as np
-from .trials.utils import get_timestamp
-from .trials.visuals import graficar_kmeans, graficar_dbscan
-from .trials.kmeans import buscar_k_optimo, kmeans
-from .trials.dbscan import dbscan
+from .utils import get_timestamp
+from .visuals import graficar_kmeans, graficar_dbscan
+from .kmeans import buscar_k_optimo, kmeans
+from .dbscan import dbscan
 
 def pipeline(X: np.ndarray, tag: str):
     tag = tag.upper()

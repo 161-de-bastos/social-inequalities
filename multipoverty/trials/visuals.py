@@ -5,7 +5,7 @@ def graficar_dbscan(results, eps, min_samples, user_api=None):
     times = [r[1] for r in results]
     silhouettes = [r[2] for r in results]
 
-    fig, ax1 = plt.subplots(figsize=(16,12))
+    fig, ax1 = plt.subplots(figsize=(10,8))
     ax2 = ax1.twinx()
 
     bars = ax1.bar(methods, times, alpha=0.7, label="Tiempo (s)")
@@ -33,7 +33,7 @@ def graficar_kmeans(results, k, user_api):
     times = [r[1] for r in results]
     silhouettes = [r[2] for r in results]
 
-    fig, ax1 = plt.subplots(figsize=(16,12))
+    fig, ax1 = plt.subplots(figsize=(10,8))
     ax2 = ax1.twinx()
 
     bars = ax1.bar(methods, times, color='skyblue', alpha=0.7, label="Tiempo (s)")
@@ -56,7 +56,7 @@ def graficar_kmeans(results, k, user_api):
     plt.show()
 
 def plot_speedup(df, title: str = "KMeans Speedup (Serial / Parallel)") -> None:
-    plt.figure(figsize=(16, 12))
+    plt.figure(figsize=(10, 8))
     for backend in df["user_api"].unique():
         sub = df[df["user_api"] == backend].sort_values("k")
         plt.plot(sub["k"], sub["speedup"], marker="o", label=backend)

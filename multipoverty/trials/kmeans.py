@@ -36,13 +36,14 @@ def speedup_k(X, ks=range(2,11), user_apis = ['blas','openmp']):
             result = {
                 'k': k,
                 'user_api': user_api,
-                'serial_time': timed_kmeans(X, k, user_api=user_api, parallel=False),
-                'parallel_time': timed_kmeans(X, k, user_api=user_api, parallel=True)
+                'serial_time': timed_kmeans(X, k, user_api=user_api, parallel=False, getscore=False),
+                'parallel_time': timed_kmeans(X, k, user_api=user_api, parallel=True, getscore=False)
             }
-            result['speedup'] = result['serial_time'] / result['parallel_time']
             results.append(result)
+    results = pd.DataFrame(results)
+    results['speedup'] = results['serial_time'] / results['parallel_time']
 
-    plot_speedup(pd.DataFrame(results))
+    plot_speedup(results)
 
 # Scoring to be paralellized
 def ksearch(X,k):
