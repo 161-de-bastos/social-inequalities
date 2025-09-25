@@ -8,7 +8,7 @@ from .utils import get_timestamp
 from multiprocessing import Pool
 
 # Restricción de KMeans en threads
-def threaded_kmeans(X, k: int, user_api: str, parallel: bool, getscore: bool = True):
+def timed_kmeans(X, k: int, user_api: str, parallel: bool, getscore: bool = True):
     limits = None if parallel else 1
     tag = 'Paralelo' if parallel else 'Serial'
 
@@ -29,15 +29,15 @@ def threaded_kmeans(X, k: int, user_api: str, parallel: bool, getscore: bool = T
     else:
         return duration
 
-def speedup_k(X, ks=(2,11), user_apis = ['blas','openmp']):
+def speedup_k(X, ks=range(2,11), user_apis = ['blas','openmp']):
     results = [] 
     for user_api in user_apis:
         for k in ks:
             result = {
                 'k': k,
                 'user_api': user_api,
-                'serial_time': threaded_kmeans(X, k, user_api=user_api, parallel=False),
-                'parallel_time': threaded_kmeans(X, k, user_api=user_api, parallel=True)
+                'serial_time': timed_kmeans(X, k, user_api=user_api, parallel=False),
+                'parallel_time': timed_kmeans(X, k, user_api=user_api, parallel=True)
             }
             result['speedup'] = result['serial_time'] / result['parallel_time']
             results.append(result)
@@ -65,6 +65,6 @@ def buscar_k_optimo(X, rango = range(2,11), cores = 4):
     return k_opt
 
 def kmeans(X, k: int, user_api: str):
-    serial = threaded_kmeans(X, k, user_api, False)
-    paralelo = threaded_kmeans(X, k, user_api, True)
+    serial = timed_kmeans(X, k, user_api, False)
+    paralelo = timed_kmeans(X, k, user_api, True)
     return [serial, paralelo]
