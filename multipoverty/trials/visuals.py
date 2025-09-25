@@ -1,0 +1,28 @@
+import matplotlib.pyplot as plt
+
+def graficar_resultados(results, k):
+    methods = [r[0] for r in results]
+    times = [r[1] for r in results]
+    silhouettes = [r[2] for r in results]
+
+    fig, ax1 = plt.subplots(figsize=(8,6))
+    ax2 = ax1.twinx()
+
+    bars = ax1.bar(methods, times, color='skyblue', alpha=0.7, label="Tiempo (s)")
+    line = ax2.plot(methods, silhouettes, color='red', marker='o', label="Silhouette")
+
+    for bar, val in zip(bars, times):
+        ax1.text(bar.get_x() + bar.get_width()/2., val + 0.01, f'{val:.3f}s',
+                 ha='center', va='bottom')
+    for i, val in enumerate(silhouettes):
+        ax2.annotate(f'{val:.3f}', (methods[i], silhouettes[i]),
+                     textcoords="offset points", xytext=(0,10), ha='center')
+
+    ax1.set_ylabel("Tiempo (s)", color='skyblue')
+    ax2.set_ylabel("Silhouette", color='red')
+    ax1.set_title(f"Comparación KMeans Serial vs Paralelo (k={k})")
+
+    ax1.legend(loc='upper left')
+    ax2.legend(loc='upper right')
+    plt.tight_layout()
+    plt.show()
