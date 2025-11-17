@@ -27,6 +27,12 @@ struct PreprocessConfig {
     double kurt_thr = 1.0;
 };
 
+struct MetricsConfig {
+    bool enabled = false;
+    std::string list = "";
+    std::string output = "metrics.csv";
+};
+
 struct Config {
     std::string task = "dbscan";
     std::string backend = "brute";
@@ -36,6 +42,7 @@ struct Config {
     KMeansConfig kmeans;
     DataConfig data;
     PreprocessConfig preprocess;
+    MetricsConfig metrics;
 };
 
 bool load_config(

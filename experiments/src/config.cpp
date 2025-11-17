@@ -88,6 +88,15 @@ bool load_config(
                 }
                 if (key == "skew_thr") cfg.preprocess.skew_thr = std::stod(value);
                 if (key == "kurt_thr") cfg.preprocess.kurt_thr = std::stod(value);
+            
+            } else if (section == "metrics") {
+                if (key == "enabled") {
+                    std::string v = value;
+                    std::transform(v.begin(), v.end(), v.begin(), ::tolower);
+                    cfg.preprocess.normalize = (v == "true") ? true : false;
+                }
+                if (key == "list") cfg.metrics.list = std::stod(value);
+                if (key == "output") cfg.metrics.output = std::stod(value);
             }
         }
     }
