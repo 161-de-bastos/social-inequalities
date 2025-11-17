@@ -1,0 +1,15 @@
+task: dbscan
+
+backend: brute          # brute | kdtree | balltree
+
+data:
+  path: "data/test.csv"
+  start_col: 1
+
+parallel:
+  mode: serial          # serial | omp
+  num_threads: 4        # 0 = no forzar, usar OMP_NUM_THREADS o default
+
+dbscan:
+  eps: 0.5
+  minPts: 5
