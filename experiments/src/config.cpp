@@ -36,7 +36,7 @@ bool load_config(
         std::string content = trim(line);
         
         // sección nueva: "parallel:" o "dbscan:"
-        if (indent == 0 && content.back() == ':') {
+        if (indent == 0 && !content.empty() && content.back() == ':') {
             section = content.substr(0, content.size() - 1);
             continue;
         }
@@ -75,6 +75,19 @@ bool load_config(
             } else if (section == "dbscan") {
                 if (key == "eps") cfg.dbscan.eps = std::stod(value);
                 if (key == "minPts") cfg.dbscan.minPts = std::stoi(value);
+            
+            } else if (section == "kmeans") {
+                if (key == "k") cfg.kmeans.k = std::stod(value);
+                if (key == "max_iters") cfg.kmeans.max_iters = std::stod(value);
+            
+            } else if (section == "preprocess") {
+                if (key == "normalize") {
+                    std::string v = value;
+                    std::transform(v.begin(), v.end(), v.begin(), ::tolower);
+                    cfg.preprocess.normalize = (v == "true") ? true : false;
+                }
+                if (key == "skew_thr") cfg.preprocess.skew_thr = std::stod(value);
+                if (key == "kurt_thr") cfg.preprocess.kurt_thr = std::stod(value);
             }
         }
     }

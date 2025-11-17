@@ -11,9 +11,20 @@ struct DBSCANConfig {
     int minPts = 5;
 };
 
+struct KMeansConfig {
+    int k = 4;
+    int max_iters = 100;
+};
+
 struct DataConfig {
     std::string path = "";
     int start_col = 0;
+};
+
+struct PreprocessConfig {
+    bool normalize = false;
+    double skew_thr = 0.5;
+    double kurt_thr = 1.0;
 };
 
 struct Config {
@@ -22,7 +33,9 @@ struct Config {
 
     ParallelConfig parallel;
     DBSCANConfig dbscan;
+    KMeansConfig kmeans;
     DataConfig data;
+    PreprocessConfig preprocess;
 };
 
 bool load_config(
