@@ -30,7 +30,7 @@ struct PreprocessConfig {
 struct MetricsConfig {
     bool enabled = false;
     std::string list = "";
-    std::string output = "metrics.csv";
+    std::string output = "metrics.log";
 };
 
 struct Config {
