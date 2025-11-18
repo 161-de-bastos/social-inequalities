@@ -1,25 +1,21 @@
 #!/bin/bash
-#set -e
+set -e
 
 EXEC="./dbscan_app"
 
-DATASETS=("data/test.csv")
+DATASETS=("data/df.csv")
 BACKENDS=("brute" "kdtree" "balltree")
 MODES=("serial" "omp")
 TASKS=("dbscan" "kmeans")
 
-METRICS_FILE="experiments.log"
-
 echo "=== DBSCAN + KMEANS EXPERIMENTS ==="
-echo "Log: $METRICS_FILE"
-
-# limpiar log anterior
-: > "$METRICS_FILE"
 
 for ds in "${DATASETS[@]}"; do
     for mode in "${MODES[@]}"; do
         for backend in "${BACKENDS[@]}"; do
             for task in "${TASKS[@]}"; do
+                LOG_FILE="results_$task-$backend-$mode.log"
+                touch "$LOG_FILE"
 
                 # para kmeans el backend no importa, pero lo dejamos por simetría
                 echo
@@ -37,7 +33,7 @@ backend: $backend
 
 data:
   path: $ds
-  start_col: 0
+  start_col: 2
 
 preprocess:
   normalize: true
@@ -49,8 +45,8 @@ parallel:
   num_threads: 8
 
 dbscan:
-  eps: 0.5
-  minPts: 5
+  eps: 2.05
+  minPts: 50
 
 kmeans:
   k: 4
@@ -59,7 +55,7 @@ kmeans:
 metrics:
   enabled: true
   list: "time,memory,silhouette"
-  output: "$METRICS_FILE"
+  output: $LOG_FILE
 EOF
 
                 # correr el binario; él solito:
@@ -76,6 +72,3 @@ EOF
 done
 
 rm -f config.yaml
-
-echo
-echo "=== EXPERIMENTOS COMPLETADOS. Revisa: $METRICS_FILE ==="

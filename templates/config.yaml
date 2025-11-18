@@ -1,15 +1,28 @@
 task: dbscan
-
-backend: brute          # brute | kdtree | balltree
+backend: brute # brute | kdtree | balltree
 
 data:
-  path: "data/test.csv"
-  start_col: 1
+  path: "data/df.csv"
+  start_col: 2
+
+preprocess:
+  normalize: true
+  skew_thr: 0.5
+  kurt_thr: 1.0
 
 parallel:
-  mode: serial          # serial | omp
-  num_threads: 4        # 0 = no forzar, usar OMP_NUM_THREADS o default
+  mode: omp # serial | omp
+  num_threads: 8 # 0 = no forzar, usar OMP_NUM_THREADS o default
 
 dbscan:
-  eps: 0.5
-  minPts: 5
+  eps: 2.05
+  minPts: 50
+
+kmeans:
+  k: 4
+  max_iters: 100
+
+metrics:
+  enabled: true
+  list: "time,memory,silhouette"
+  output: "results_dbscan_brute_serial.log"

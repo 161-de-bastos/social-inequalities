@@ -93,10 +93,10 @@ bool load_config(
                 if (key == "enabled") {
                     std::string v = value;
                     std::transform(v.begin(), v.end(), v.begin(), ::tolower);
-                    cfg.preprocess.normalize = (v == "true") ? true : false;
+                    cfg.metrics.enabled = (v == "true") ? true : false;
                 }
-                if (key == "list") cfg.metrics.list = std::stod(value);
-                if (key == "output") cfg.metrics.output = std::stod(value);
+                if (key == "list") cfg.metrics.list = value;
+                if (key == "output") cfg.metrics.output = value;
             }
         }
     }
