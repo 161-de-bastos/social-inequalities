@@ -1,7 +1,13 @@
 #pragma once
 #include "common.hpp"
+#include "config.hpp"
 #include <string>
 #include <vector>
+
+void preprocess_dataset(
+    Dataset& X,
+    const PreprocessConfig& cfg
+);
 
 bool load_csv(
     const std::string& path,
