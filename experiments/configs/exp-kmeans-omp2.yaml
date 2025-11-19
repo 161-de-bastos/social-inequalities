@@ -1,0 +1,30 @@
+
+task: kmeans
+backend: brute
+
+data:
+    path: df.csv
+    start_col: 2
+
+preprocess:
+    normalize: true
+    skew_thr: 0.5
+    kurt_thr: 1.0
+
+parallel:
+    mode: omp
+    num_threads: 2
+
+dbscan:
+    eps: 2.05
+    minPts: 50
+
+kmeans:
+    k: 4
+    max_iters: 100
+
+metrics:
+    enabled: true
+    list: "time,memory"
+    output: results.log
+    
