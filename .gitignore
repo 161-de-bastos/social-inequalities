@@ -3,6 +3,8 @@ build/
 data/
 *.log
 dbscan_app
+kmeans/
+dbscan/
 
 # Prerequisites
 *.d
